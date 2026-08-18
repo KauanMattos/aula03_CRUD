@@ -45,23 +45,6 @@ def main():
 
 
 # Funcoes do CRUD
-def inserir_cliente(lista_clientes):
-    cod_cliente = int(input("Digite o codigo do cliente: "))
-    nome_cliente = input("Digite o nome do cliente: ")
-    nro_agencia = int(input("Digite o numero da agencia do cliente: "))
-    nro_conta_corrente = int(input("Digite o numero da conta corrente do cliente: "))
-    saldo_cliente = float(input("Digite o saldo do cliente: "))
-
-    dados_cliente = {
-        'Codigo_cliente': cod_cliente,
-        'Nome_cliente': nome_cliente,
-        'Nro_agencia_cliente': nro_agencia,
-        'Nro_conta_corrente': nro_conta_corrente,
-        'Saldo_conta_cliente': saldo_cliente
-    }
-
-    lista_clientes.append(dados_cliente)
-
 def buscar_cliente(lista_clientes,codigo):
     indice = -1
     for i in range(len(lista_clientes)):
@@ -69,20 +52,52 @@ def buscar_cliente(lista_clientes,codigo):
             indice = i
     return indice
 
-def alterar_cliente(lista_clientes,indice):
-    print(f"Nome do cliente: {lista_clientes[indice]['Nome_cliente']}")
-    novo_nome_cliente = input("Digite o novo nome do cliente: ")
-    print(f"Numero da agencia do cliente: {lista_clientes[indice]['Nro_agencia_cliente']}")
-    novo_nro_agencia = int(input("Digite o novo numero da agencia do cliente: "))
-    print(f"Numero da conta corrente do cliente: {lista_clientes[indice]['Nro_conta_corrente']}")
-    novo_conta_corrente = int(input("Digite o novo numero da conta corrente do cliente: "))
-    print(f"Saldo do cliente: {lista_clientes[indice]['Saldo_conta_cliente']}")
-    novo_saldo = float(input("Digite o saldo do cliente: "))
+def inserir_cliente(lista_clientes):
+    try:
+        # Validacao do codigo para simular uma chave primaria
+        cod_cliente = int(input("Digite o codigo do cliente: "))
+        indice = buscar_cliente(lista_clientes,cod_cliente)
+        while(indice != -1):
+            print("Esse codigo já existe")
+            cod_cliente = int(input("Digite outro codigo do cliente: "))
+            indice = buscar_cliente(lista_clientes, cod_cliente)
+        
+        nome_cliente = input("Digite o nome do cliente: ")
+        nro_agencia = int(input("Digite o numero da agencia do cliente: "))
+        nro_conta_corrente = int(input("Digite o numero da conta corrente do cliente: "))
+        saldo_cliente = float(input("Digite o saldo do cliente: "))
+    except ValueError:
+        print("Digite dados númericos para o código, o nro da agência, o nro da conta corrente e o saldo.")
+    else:
+        dados_cliente = {
+            'Codigo_cliente': cod_cliente,
+            'Nome_cliente': nome_cliente,
+            'Nro_agencia_cliente': nro_agencia,
+            'Nro_conta_corrente': nro_conta_corrente,
+            'Saldo_conta_cliente': saldo_cliente
+        }
+        lista_clientes.append(dados_cliente)
+        print("Cliente inserido com sucesso.")
 
-    lista_clientes[indice]['Nome_cliente'] = novo_nome_cliente
-    lista_clientes[indice]['Nro_agencia_cliente'] = novo_nro_agencia
-    lista_clientes[indice]['Nro_conta_corrente'] = novo_conta_corrente
-    lista_clientes[indice]['Saldo_conta_cliente'] = novo_saldo
+def alterar_cliente(lista_clientes,indice):
+    try:
+        print(f"Nome do cliente: {lista_clientes[indice]['Nome_cliente']}")
+        novo_nome_cliente = input("Digite o novo nome do cliente: ")
+        print(f"Numero da agencia do cliente: {lista_clientes[indice]['Nro_agencia_cliente']}")
+        novo_nro_agencia = int(input("Digite o novo numero da agencia do cliente: "))
+        print(f"Numero da conta corrente do cliente: {lista_clientes[indice]['Nro_conta_corrente']}")
+        novo_conta_corrente = int(input("Digite o novo numero da conta corrente do cliente: "))
+        print(f"Saldo do cliente: {lista_clientes[indice]['Saldo_conta_cliente']}")
+        novo_saldo = float(input("Digite o saldo do cliente: "))
+    except ValueError:
+        print("Digite dados númericos para o código, o nro da agência, o nro da conta corrente e o saldo.")
+    else:
+        # Captura alterações para o dicionario/lista   
+        lista_clientes[indice]['Nome_cliente'] = novo_nome_cliente
+        lista_clientes[indice]['Nro_agencia_cliente'] = novo_nro_agencia
+        lista_clientes[indice]['Nro_conta_corrente'] = novo_conta_corrente
+        lista_clientes[indice]['Saldo_conta_cliente'] = novo_saldo
+        print("Dados alterados com sucesso.")
 
 def excluir_cliente(lista_clientes,indice):
     lista_clientes.pop(indice)
